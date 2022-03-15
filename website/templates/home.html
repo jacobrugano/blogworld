@@ -5,14 +5,23 @@
     <div id="posts">
         {% for post in posts %}
         <div class="card border-dark">
+<!-- code to display the header a blog was posted -->
             <div class="card-header d-flex justify-content-between align-items-center">
                 <a href="/posts/{{post.user.username}}">{{post.user.username}}</a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="" class="dropdown-item">Delete</a></li>
+                        </ul>
+                </div>
             </div>
+<!-- Dropdown button to delete posts -->
 
+<!-- code to display the text a blog was posted -->
             <div class="card-body">
                 <div class="card-text"> {{post.text}}</div>
             </div>
-               
+<!-- code to display the date a blog was posted -->
             <div text-muted class="card-footer d-flex justify-content-between align-items-center">
                 {{post.date_created}}
             </div>
