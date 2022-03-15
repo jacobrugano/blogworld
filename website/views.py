@@ -2,6 +2,8 @@ from crypt import methods
 from unicodedata import category
 from flask import Blueprint, render_template, request, flash
 from flask_login import login_required, current_user
+from .models import Post
+from . import db
 
 views = Blueprint("views", __name__)
 
@@ -20,6 +22,9 @@ def create_post():
         if not text:
             flash('Blog area can not be empty!!', category="error")
         else:
+            post = Post(text=text, author=current_user.id)
+            db.session.add(post)
+            db.session.commit()
             flash('Blog successfully created!!', category="success")
 
 
