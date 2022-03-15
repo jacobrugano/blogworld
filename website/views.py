@@ -1,5 +1,6 @@
 from crypt import methods
-from flask import Blueprint, render_template
+from unicodedata import category
+from flask import Blueprint, render_template, request, flash
 from flask_login import login_required, current_user
 
 views = Blueprint("views", __name__)
@@ -13,4 +14,14 @@ def home():
 @views.route("/create-post", methods=['GET', 'POST'])
 @login_required
 def create_post():
+    if request.method == "POST":
+        text = request.form.get('text')
+
+        if not text:
+            flash('Blog area can not be empty!!', category="error")
+        else:
+            flash('Blog successfully created!!', category="success")
+
+
+
     return render_template("create_post.html", user=current_user)
