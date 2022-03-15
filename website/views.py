@@ -34,13 +34,14 @@ def create_post():
 @views.route("/delete-post/<id>")
 @login_required
 def delete_post(id):
-    post = Post.query.filter_by(id=id).first()
+    post = Post.query.filter_by(id=id).first() #To check by ID if the post exists
 
     if not post:
-        flash('Blog does not exist', cateory='error')
+        flash('Blog does not exist', category='error')
     elif current_user.id != post.id:
-        flash('You do not have permission to delete this blog')
+        flash('You do not have permission to delete this blog', category='error')
     else:
         db.session.delete(post)
         db.session.commit()
         flash('Blog deleted!!', category = "success")
+    return redirect(url_for('views.home'))
