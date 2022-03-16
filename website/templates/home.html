@@ -1,41 +1,8 @@
 <section  style="background-image: url(https://images.pexels.com/photos/326311/pexels-photo-326311.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260); background-attachment: fixed;">
-{% extends "base.html" %} {% block title %}Home page{% endblock%} 
-{% block content %}
+{% extends "posts_div.html" %} {% block title %}Home page{% endblock%} 
 
-    <h2 align="center">Your Blogs</h2>
-    <div id="posts">
-        {% for post in posts %}
-        <div class="card border-dark">
-<!-- code to display the header a blog was posted -->
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <a href="/posts/{{post.user.username}}">{{post.user.username}}</a>
-               {% if user.id == post.author %}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="/delete-post/{{post.id}}" class="dropdown-item">Delete</a></li>
-                        </ul>
-                </div>
-                {% endif %}
-            </div>
-<!-- Dropdown button to delete posts -->
 
-<!-- code to display the text a blog was posted -->
-            <div class="card-body">
-                <div class="card-text"> {{post.text}}</div>
-            </div>
-<!-- code to display the date a blog was posted -->
-            <div text-muted class="card-footer d-flex justify-content-between align-items-center">
-                {{post.date_created}}
-            </div>
-        </div>
-        <br />
-        {% endfor %}
-<!-- Code to enable there to be a button for adding blogs.....for authenticated users. -->
-        <div align="center">
-            <a href="/create-post"><button type="button" class="btn  btn-primary">Create Your Blog</button></a>
-        </div>
-    </div>
+<!-- All code in this file copied to post-div.html then inherited it at the top here instead of base.html-->
 
-{% endblock %}
+
 </section>

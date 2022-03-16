@@ -54,6 +54,7 @@ def posts(username):
     if not user:
         flash('No user with such a username in bloggit!!', category='error')
         return redirect(url_for('views.home'))
-        
-    post = Post.query.filter_by(username=username).all() # To get blogs by a certain user
-    return render_template("posts.html", user=current_user, posts=posts)
+
+   # post = Post.query.filter_by(author=user.id).all() # To get blogs by a certain user
+    posts = user.posts
+    return render_template("posts.html", user=current_user, posts=posts, username=username)
