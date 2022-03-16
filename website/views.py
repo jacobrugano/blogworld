@@ -2,7 +2,7 @@ from crypt import methods
 from unicodedata import category
 from flask import Blueprint, render_template, request, flash, url_for, redirect
 from flask_login import login_required, current_user
-from .models import Post
+from .models import Post, User
 from . import db
 
 views = Blueprint("views", __name__)
@@ -43,5 +43,17 @@ def delete_post(id):
     else:
         db.session.delete(post)
         db.session.commit()
-        flash('Blog deleted!!', category = "success")
+        flash('Blog deleted. Think twice!!', category = "success")
     return redirect(url_for('views.home'))
+
+@views.route("/posts/<username>")
+@login_required
+def posts(username):
+    user = User.query.filter_by(username=username).first() # To check if the username that the user typed actually exists.
+    
+    if not user:
+        flash('No user with such a username in bloggit!!', category='error')
+        return redirect(url_for('views.home'))
+        
+    post = Post.query.filter_by(username=username).all() # To get blogs by a certain user
+    return render_template("posts.html", user=current_user, posts=posts)
