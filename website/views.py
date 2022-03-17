@@ -2,7 +2,7 @@ from crypt import methods
 from unicodedata import category
 from flask import Blueprint, render_template, request, flash, url_for, redirect
 from flask_login import login_required, current_user
-from .models import Post, User
+from .models import Post, User, Comment
 from . import db
 
 views = Blueprint("views", __name__)
@@ -58,3 +58,23 @@ def posts(username):
    # post = Post.query.filter_by(author=user.id).all() # To get blogs by a certain user
     posts = user.posts
     return render_template("posts.html", user=current_user, posts=posts, username=username)
+
+
+@views.route("/create-comment/<post_id>", methods=['POST'])
+@login_required
+def create_comment(post_id):
+    text = request.form.get('text')
+
+    if not text:
+        flash('Comment cannot be empty.', category='error')
+    else:
+        post = Post.query.filter_by(id=post_id)
+        if post:
+            comment = Comment(
+                text=text, author=current_user.id, post_id=post_id)
+            db.session.add(comment)
+            db.session.commit()
+        else:
+            flash('Post does not exist.', category='error')
+
+    return redirect(url_for('views.home'))
